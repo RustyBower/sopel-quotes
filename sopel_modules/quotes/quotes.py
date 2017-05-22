@@ -12,6 +12,7 @@ from sqlalchemy import create_engine, event, exc
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.pool import Pool
 from sqlalchemy.sql.expression import true
 from sqlalchemy.sql.functions import random
@@ -60,17 +61,16 @@ class QuotesSection(StaticSection):
 class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
-        session = bot.memory['session']
-        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(Quotes.active == true()).one()
-        if res:
-            session.close()
+        try:
+            session = bot.memory['session']
+            res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(Quotes.active == true()).one()
+        except NoResultFound:
             return False
-        else:
-            new_quote = QuotesDB(key=key, value=value, nick=nick, active=True)
-            session.add(new_quote)
-            session.commit()
-            session.close()
-            return
+        new_quote = QuotesDB(key=key, value=value, nick=nick, active=True)
+        session.add(new_quote)
+        session.commit()
+        session.close()
+        return
 
     @staticmethod
     def remove(key, bot):
@@ -89,9 +89,12 @@ class Quotes:
 
     @staticmethod
     def search(key, bot):
-        session = bot.memory['session']
-        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(Quotes.active == true()).one()
-        session.close()
+        try:
+            session = bot.memory['session']
+            res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(Quotes.active == true()).one()
+            session.close()
+        except NoResultFound:
+            return False
         return res
 
     @staticmethod
