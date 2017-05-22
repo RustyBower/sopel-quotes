@@ -44,7 +44,7 @@ class QuotesDB(Base):
     key = Column(String(96))
     value = Column(String(96))
     nick = Column(String(96))
-    active = Column(Boolean)
+    active = Column(Boolean, default=True)
 
 
 # Define our Sopel Quotes configuration
@@ -189,8 +189,13 @@ def get_quote(bot, trigger):
             value = argumentsList[1].strip()
 
             # Make sure our key is less than our db field
-            if len(item_key) > 96:
+            if len(key) > 96:
                 bot.say('Sorry, your key is too long.')
+                return
+
+            # Make sure our key is less than our db field
+            if len(value) > 96:
+                bot.say('Sorry, your value is too long.')
                 return
 
             quote = Quotes.add(key, value, nick, bot)
