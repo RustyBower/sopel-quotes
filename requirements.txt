@@ -1,0 +1,10 @@
+# Production Dependencies
+mysqlclient
+sopel>=6.0,<7
+sqlalchemy
+# Development requirements
+codeclimate-test-reporter
+pycodestyle
+pytest
+pytest-cov
+mock
