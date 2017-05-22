@@ -4,18 +4,9 @@
 """
 Sopel Quotes is a module for handling user added IRC quotes
 """
-import MySQLdb
-import re
-from re import sub
-from random import randint, seed
-from sopel.module import commands, priority, example
-import sopel.web as web
-import os
-from collections import deque
-from sopel.tools import Ddict
-
+from random import seed
 from sopel.config.types import StaticSection, ValidatedAttribute
-from sopel.module import rule, priority
+from sopel.module import commands, example, rule, priority
 from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy import create_engine, event, exc
 from sqlalchemy.exc import OperationalError
@@ -162,7 +153,7 @@ def setup(bot):
     bot.memory['session'] = session
 
 
-@rule('quote')
+@commands('quote')
 @priority('high')
 @example('quote')
 @example('quote Hello')
