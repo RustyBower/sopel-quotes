@@ -65,7 +65,7 @@ class QuotesSection(StaticSection):
     db_name = ValidatedAttribute('db_name', str, default='quotes')
 
 
-# Define Bucket inventory
+# Define Quotes
 class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
@@ -114,19 +114,19 @@ class Quotes:
 # Walk the user through defining variables required
 def configure(config):
     config.define_section('quotes', QuotesSection)
-    config.bucket.configure_setting(
+    config.quotes.configure_setting(
         'db_host',
         'Enter ip/hostname for MySQL server:'
     )
-    config.bucket.configure_setting(
+    config.quotes.configure_setting(
         'db_user',
         'Enter user for MySQL db:'
     )
-    config.bucket.configure_setting(
+    config.quotes.configure_setting(
         'db_pass',
         'Enter password for MySQL db:'
     )
-    config.bucket.configure_setting(
+    config.quotes.configure_setting(
         'db_name',
         'Enter name for MySQL db:'
     )
@@ -134,12 +134,12 @@ def configure(config):
 
 # Initial bot setup
 def setup(bot):
-    bot.config.define_section('bucket', QuotesSection)
+    bot.config.define_section('quotes', QuotesSection)
 
-    db_host = bot.config.bucket.db_host
-    db_user = bot.config.bucket.db_user
-    db_pass = bot.config.bucket.db_pass
-    db_name = bot.config.bucket.db_name
+    db_host = bot.config.quotes.db_host
+    db_user = bot.config.quotes.db_user
+    db_pass = bot.config.quotes.db_pass
+    db_name = bot.config.quotes.db_name
 
     engine = create_engine('mysql://%s:%s@%s/%s?charset=utf8mb4' % (db_user, db_pass, db_host, db_name), encoding='utf8')
 
