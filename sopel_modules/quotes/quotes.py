@@ -14,7 +14,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.pool import Pool
-from sqlalchemy.sql.expression import true
 from sqlalchemy.sql.functions import random
 
 
@@ -63,7 +62,7 @@ class Quotes:
     def add(key, value, nick, bot):
         try:
             session = bot.memory['session']
-            res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(Quotes.active == true()).one()
+            session.query(QuotesDB).filter(QuotesDB.key == key).filter(Quotes.active.is_(True)).one()
         except NoResultFound:
             return False
         new_quote = QuotesDB(key=key, value=value, nick=nick, active=True)
@@ -91,7 +90,7 @@ class Quotes:
     def search(key, bot):
         try:
             session = bot.memory['session']
-            res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(Quotes.active == true()).one()
+            res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(Quotes.active.is_(True)).one()
             session.close()
         except NoResultFound:
             return False
@@ -100,7 +99,7 @@ class Quotes:
     @staticmethod
     def match(pattern, bot):
         session = bot.memory['session']
-        res = session.query(QuotesDB.key).filter(QuotesDB.key.like(pattern)).filter(Quotes.active == true()).all()
+        res = session.query(QuotesDB.key).filter(QuotesDB.key.like(pattern)).filter(Quotes.active.is_(True)).all()
         session.close()
         return res
 
