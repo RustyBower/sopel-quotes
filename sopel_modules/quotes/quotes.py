@@ -243,7 +243,7 @@ def delete(bot, trigger):
         return
     else:
         key = trigger.group(2).strip()
-        res = Quotes.remove(key, bot)
+        Quotes.remove(key, bot)
         bot.say('Deleted quote.')
 
 if __name__ == '__main__':
