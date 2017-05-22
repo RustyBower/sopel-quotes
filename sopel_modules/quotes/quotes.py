@@ -236,6 +236,3 @@ def delete(bot, trigger):
         key = trigger.group(2).strip()
         Quotes.remove(key, bot)
         bot.say('Deleted quote.')
-
-if __name__ == '__main__':
-    print(__doc__.strip())
