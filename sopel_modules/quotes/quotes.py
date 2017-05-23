@@ -4,15 +4,14 @@
 """
 Sopel Quotes is a module for handling user added IRC quotes
 """
-from random import randint, seed
+from random import seed
 from sopel.config.types import StaticSection, ValidatedAttribute
-from sopel.module import commands, example, rule, priority
+from sopel.module import commands, example, priority
 from sqlalchemy import Boolean, Column, Integer, String, Text
 from sqlalchemy import create_engine, event, exc
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.pool import Pool
 from sqlalchemy.sql.functions import random
 
