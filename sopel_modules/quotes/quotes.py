@@ -61,7 +61,7 @@ class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
         session = bot.memory['session']
-        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active.is_(True)).one_or_none()
+        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter({'active': True}).one_or_none()
         session.close()
         if res:
             return False
@@ -89,7 +89,7 @@ class Quotes:
     @staticmethod
     def search(key, bot):
         session = bot.memory['session']
-        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active.is_(True)).one_or_none()
+        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter({'active': True}).one_or_none()
         session.close()
         if res:
             return res
@@ -99,7 +99,7 @@ class Quotes:
     @staticmethod
     def match(pattern, bot):
         session = bot.memory['session']
-        res = session.query(QuotesDB.key).filter(QuotesDB.key.like(pattern)).filter(QuotesDB.active.is_(True)).all()
+        res = session.query(QuotesDB.key).filter(QuotesDB.key.like(pattern)).filter({'active': True}).all()
         session.close()
         return res
 
