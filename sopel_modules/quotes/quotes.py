@@ -59,7 +59,7 @@ class QuotesSection(StaticSection):
 class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
-        session = bot.memory['session']
+        session = bot.memory['quotes_session']
         res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active == 1).one_or_none()
         session.close()
         if res:
@@ -72,7 +72,7 @@ class Quotes:
 
     @staticmethod
     def remove(key, bot):
-        session = bot.memory['session']
+        session = bot.memory['quotes_session']
         session.query(QuotesDB).filter(QuotesDB.key == key).update({'active': False})
         session.commit()
         session.close()
@@ -80,14 +80,14 @@ class Quotes:
 
     @staticmethod
     def random(bot):
-        session = bot.memory['session']
+        session = bot.memory['quotes_session']
         res = session.query(QuotesDB).filter(QuotesDB.active == 1).order_by(random()).first()
         session.close()
         return res
 
     @staticmethod
     def search(key, bot):
-        session = bot.memory['session']
+        session = bot.memory['quotes_session']
         res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active == 1).one_or_none()
         session.close()
         if res:
@@ -97,7 +97,7 @@ class Quotes:
 
     @staticmethod
     def match(pattern, bot):
-        session = bot.memory['session']
+        session = bot.memory['quotes_session']
         res = session.query(QuotesDB.key).filter(QuotesDB.key.like('%%%s%%' % pattern)).filter(QuotesDB.active == 1).all()
         session.close()
         if res:
@@ -153,7 +153,7 @@ def setup(bot):
     # Set up a session for database interaction
     session = scoped_session(sessionmaker())
     session.configure(bind=engine)
-    bot.memory['session'] = session
+    bot.memory['quotes_session'] = session
 
 
 @commands('quote')
