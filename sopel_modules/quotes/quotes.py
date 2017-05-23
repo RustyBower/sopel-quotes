@@ -4,10 +4,10 @@
 """
 Sopel Quotes is a module for handling user added IRC quotes
 """
-from random import seed
+from random import randint, seed
 from sopel.config.types import StaticSection, ValidatedAttribute
 from sopel.module import commands, example, rule, priority
-from sqlalchemy import Boolean, Column, Integer, String
+from sqlalchemy import Boolean, Column, Integer, String, Text
 from sqlalchemy import create_engine, event, exc
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.declarative import declarative_base
@@ -42,7 +42,7 @@ class QuotesDB(Base):
     __tablename__ = 'quotes'
     id = Column(Integer, primary_key=True)
     key = Column(String(96))
-    value = Column(String(96))
+    value = Column(Text)
     nick = Column(String(96))
     active = Column(Boolean, default=True)
 
@@ -61,7 +61,7 @@ class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
         session = bot.memory['session']
-        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter({'active': True}).one_or_none()
+        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active == 1).one_or_none()
         session.close()
         if res:
             return False
@@ -69,7 +69,7 @@ class Quotes:
         session.add(new_quote)
         session.commit()
         session.close()
-        return
+        return True
 
     @staticmethod
     def remove(key, bot):
@@ -77,19 +77,19 @@ class Quotes:
         session.query(QuotesDB).filter(QuotesDB.key == key).update({'active': False})
         session.commit()
         session.close()
-        return
+        return True
 
     @staticmethod
     def random(bot):
         session = bot.memory['session']
-        res = session.query(QuotesDB).order_by(random()).one()
+        res = session.query(QuotesDB).filter(QuotesDB.active == 1).order_by(random()).first()
         session.close()
         return res
 
     @staticmethod
     def search(key, bot):
         session = bot.memory['session']
-        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter({'active': True}).one_or_none()
+        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active == 1).one_or_none()
         session.close()
         if res:
             return res
@@ -99,10 +99,12 @@ class Quotes:
     @staticmethod
     def match(pattern, bot):
         session = bot.memory['session']
-        res = session.query(QuotesDB.key).filter(QuotesDB.key.like(pattern)).filter({'active': True}).all()
+        res = session.query(QuotesDB.key).filter(QuotesDB.key.like('%%%s%%' % pattern)).filter(QuotesDB.active == 1).all()
         session.close()
-        return res
-
+        if res:
+            return list(res)
+        else:
+            return False
 
 # Walk the user through defining variables required
 def configure(config):
@@ -171,7 +173,10 @@ def get_quote(bot, trigger):
     # If the user types .quote with no arguments, get random quote
     if not trigger.group(2) or trigger.group(2) == "":
         quote = Quotes.random(bot)
-        bot.say('{0} = {1}  [added by {2}]'.format(quote.key.upper(), quote.value, quote.nick))
+        if quote:
+            bot.say('{0} = {1}  [added by {2}]'.format(quote.key.upper(), quote.value, quote.nick))
+        else:
+            bot.say('Unable to get random quote')
         return
     # Otherwise, lookup or set a new quote
     else:
@@ -223,10 +228,10 @@ def match(bot, trigger):
         pattern = trigger.group(2).strip()
         responses = Quotes.match(pattern, bot)
 
-        if responses is None:
-            bot.say('No responses found for %s' % pattern)
+        if responses:
+            bot.say('Keys matching %s: (' % pattern + ', '.join([i for sub in responses for i in sub]) + ')')
         else:
-            bot.say('Keys matching %s: (' % pattern + ', '.join(responses) + ')')
+            bot.say('No responses found for %s' % pattern)
 
 
 @commands('delete')
