@@ -60,10 +60,10 @@ class QuotesSection(StaticSection):
 class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
-        try:
-            session = bot.memory['session']
-            session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active.is_(True)).first()
-        except NoResultFound:
+        session = bot.memory['session']
+        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active.is_(True)).one_or_none()
+        session.close()
+        if res:
             return False
         new_quote = QuotesDB(key=key, value=value, nick=nick, active=True)
         session.add(new_quote)
@@ -88,13 +88,13 @@ class Quotes:
 
     @staticmethod
     def search(key, bot):
-        try:
-            session = bot.memory['session']
-            res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active.is_(True)).first()
-            session.close()
-        except NoResultFound:
+        session = bot.memory['session']
+        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active.is_(True)).one_or_none()
+        session.close()
+        if res:
+            return res
+        else:
             return False
-        return res
 
     @staticmethod
     def match(pattern, bot):
@@ -180,7 +180,7 @@ def get_quote(bot, trigger):
 
         # Search for a specific quote
         if len(argumentsList) == 1:
-            quote = Quotes.search(argumentsList[0].strip())
+            quote = Quotes.search(argumentsList[0].strip(), bot)
             if quote:
                 bot.say('{0} = {1}  [added by {2}]'.format(quote['key'].upper(), quote['value'], quote['nick']))
             else:
