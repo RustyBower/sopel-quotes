@@ -49,10 +49,10 @@ class QuotesDB(Base):
 # Define our Sopel Quotes configuration
 class QuotesSection(StaticSection):
     # TODO some validation rules maybe?
-    db_host = ValidatedAttribute('db_host', str, default='localhost')
-    db_user = ValidatedAttribute('db_user', str, default='quotes')
-    db_pass = ValidatedAttribute('db_pass', str)
-    db_name = ValidatedAttribute('db_name', str, default='quotes')
+    db_host = ValidatedAttribute('quotes_db_host', str, default='localhost')
+    db_user = ValidatedAttribute('quotes_db_user', str, default='quotes')
+    db_pass = ValidatedAttribute('quotes_db_pass', str)
+    db_name = ValidatedAttribute('quotes_db_name', str, default='quotes')
 
 
 # Define Quotes
