@@ -74,7 +74,7 @@ class Quotes:
     @staticmethod
     def remove(key, bot):
         session = bot.memory['session']
-        session.query(QuotesDB).filter(QuotesDB.key == key).update({QuotesDB.active: False})
+        session.query(QuotesDB).filter(QuotesDB.key == key).update({'active': False})
         session.commit()
         session.close()
         return
@@ -171,7 +171,7 @@ def get_quote(bot, trigger):
     # If the user types .quote with no arguments, get random quote
     if not trigger.group(2) or trigger.group(2) == "":
         quote = Quotes.random(bot)
-        bot.say('{0} = {1}  [added by {2}]'.format(quote['key'].upper(), quote['value'], quote['nick']))
+        bot.say('{0} = {1}  [added by {2}]'.format(quote.key.upper(), quote.value, quote.nick))
         return
     # Otherwise, lookup or set a new quote
     else:
@@ -182,7 +182,7 @@ def get_quote(bot, trigger):
         if len(argumentsList) == 1:
             quote = Quotes.search(argumentsList[0].strip(), bot)
             if quote:
-                bot.say('{0} = {1}  [added by {2}]'.format(quote['key'].upper(), quote['value'], quote['nick']))
+                bot.say('{0} = {1}  [added by {2}]'.format(quote.key.upper(), quote.value, quote.nick))
             else:
                 bot.say('Sorry, I couldn\'t find anything for that.')
         # Set a quote
