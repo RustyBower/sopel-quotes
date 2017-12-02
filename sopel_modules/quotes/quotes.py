@@ -105,6 +105,7 @@ class Quotes:
         else:
             return False
 
+
 # Walk the user through defining variables required
 def configure(config):
     config.define_section('quotes', QuotesSection)
