@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/RustyBower/sopel-quotes.svg?branch=master)](https://travis-ci.org/RustyBower/sopel-quotes)
-[![Code Climate](https://codeclimate.com/github/RustyBower/sopel-quotes/badges/gpa.svg)](https://codeclimate.com/github/RustyBower/sopel-quotes)
-[![Test Coverage](https://codeclimate.com/github/RustyBower/sopel-quotes/badges/coverage.svg)](https://codeclimate.com/github/RustyBower/sopel-quotes/coverage)
-
+[![Maintainability](https://api.codeclimate.com/v1/badges/e19bb5c6b49f968fedaf/maintainability)](https://codeclimate.com/github/RustyBower/sopel-quotes/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/e19bb5c6b49f968fedaf/test_coverage)](https://codeclimate.com/github/RustyBower/sopel-quotes/test_coverage)
 
 # Sopel Quotes
 
