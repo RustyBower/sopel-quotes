@@ -27,7 +27,7 @@ with open('dev-requirements.txt') as dev_requirements_file:
 
 setup(
     name='sopel_modules.quotes',
-    version='0.0.1',
+    version='1.0.0',
     description='Sopel Quotes is a module for handling user added IRC quotes',
     long_description=readme + '\n\n' + history,
     author='Rusty Bower',
