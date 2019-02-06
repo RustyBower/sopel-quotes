@@ -30,6 +30,7 @@ setup(
     version='1.0.0',
     description='Sopel Quotes is a module for handling user added IRC quotes',
     long_description=readme + '\n\n' + history,
+    long_description_content_type='text/markdown',
     author='Rusty Bower',
     author_email='rusty@rustybower.com',
     url='http://github.com/rustybower/sopel-quotes',
