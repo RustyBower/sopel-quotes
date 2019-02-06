@@ -60,10 +60,7 @@ class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
         session = bot.memory['quotes_session']
-        res = session.query(QuotesDB).filter(QuotesDB.key == key).filter(QuotesDB.active == 1).one_or_none()
-        session.close()
-        if res:
-            return False
+        search(key, bot)
         new_quote = QuotesDB(key=key, value=value, nick=nick, active=True)
         session.add(new_quote)
         session.commit()
@@ -136,7 +133,7 @@ def setup(bot):
     db_pass = bot.config.quotes.db_pass
     db_name = bot.config.quotes.db_name
 
-    engine = create_engine('mysql://%s:%s@%s/%s?charset=utf8mb4' % (db_user, db_pass, db_host, db_name), encoding='utf8')
+    engine = create_engine('mysql+pymysql://%s:%s@%s/%s?charset=utf8mb4' % (db_user, db_pass, db_host, db_name), encoding='utf8')
 
     # Catch any errors connecting to MySQL
     try:
