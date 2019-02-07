@@ -60,7 +60,7 @@ class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
         session = bot.memory['quotes_session']
-        search(key, bot)
+        Quotes.search(key, bot)
         new_quote = QuotesDB(key=key, value=value, nick=nick, active=True)
         session.add(new_quote)
         session.commit()
