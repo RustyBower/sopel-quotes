@@ -60,7 +60,8 @@ class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
         session = bot.memory['quotes_session']
-        Quotes.search(key, bot)
+        if Quotes.search(key, bot):
+            return False
         new_quote = QuotesDB(key=key, value=value, nick=nick, active=True)
         session.add(new_quote)
         session.commit()
@@ -197,10 +198,13 @@ def get_quote(bot, trigger):
                 bot.say('Sorry, your key is too long.')
                 return
 
-            # Make sure our key is less than our db field
+            # Commenting this out since we are using a text field for values
+            '''
+            # Make sure our value is less than our db field
             if len(value) > 96:
                 bot.say('Sorry, your value is too long.')
                 return
+            '''
 
             quote = Quotes.add(key, value, nick, bot)
 
