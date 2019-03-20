@@ -96,7 +96,7 @@ class Quotes:
     @staticmethod
     def match(pattern, bot):
         session = bot.memory['quotes_session']
-        res = session.query(QuotesDB.key).filter(QuotesDB.key.like('%%%s%%' % pattern)).filter(QuotesDB.active == 1).all()
+        res = session.query(QuotesDB.key).filter(QuotesDB.key.like('%%%s%%' % pattern)).filter(QuotesDB.active == 1).order_by(QuotesDB.key).all()
         session.close()
         if res:
             return list(res)
@@ -230,7 +230,13 @@ def match(bot, trigger):
         responses = Quotes.match(pattern, bot)
 
         if responses:
-            bot.say('Keys matching %s: (' % pattern + ', '.join([i for sub in responses for i in sub]) + ')')
+            message = ', '.join([i for sub in responses for i in sub])
+            if len(message) < 400:
+                bot.say('Keys matching %s: (' % pattern + ', '.join([i for sub in responses for i in sub]) + ')')
+            else:
+                bot.say('Message too long. Replying in PM')
+                # Allow the bot to PM with up to 10 messages per match result
+                bot.say('Keys matching %s: (' % pattern + ', '.join([i for sub in responses for i in sub]) + ')', trigger.nick, 10)
         else:
             bot.say('No responses found for %s' % pattern)
 
