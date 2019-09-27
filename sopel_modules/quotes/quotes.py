@@ -213,7 +213,7 @@ def get_quote(bot, trigger):
 
 @commands('match')
 @priority('high')
-@example('.match ello', "Keys Matching '*ello*': (Hello, Hello World)")
+@example('.match ello', "Keys Matching '*ello*' (2): (Hello, Hello World)")
 def match(bot, trigger):
     """
     .match <pattern> - Search for keys that match the pattern
@@ -226,7 +226,7 @@ def match(bot, trigger):
         responses = Quotes.match(pattern, bot)
 
         if responses:
-            bot.say('Keys matching %s: (' % pattern + ', '.join([i for sub in responses for i in sub]) + ')')
+            bot.say('Keys matching %s (%s): (' % (pattern, len(responses)) + ', '.join([i for sub in responses for i in sub]) + ')')
         else:
             bot.say('No responses found for %s' % pattern)
 
