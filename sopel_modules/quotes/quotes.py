@@ -163,8 +163,6 @@ def get_quote(bot, trigger):
     """
     .quote - Add and View Definitions
     """
-    item_key = None
-    item_value = None
     nick = trigger.nick
 
     # If the user types .quote with no arguments, get random quote
