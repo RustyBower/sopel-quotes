@@ -229,7 +229,7 @@ def match(bot, trigger):
         # PM the message if it's > 10 responses
         if len(responses) > 10:
             bot.say('Keys matching %s (%s):' % (pattern, len(responses)), trigger.nick)
-            for line in [responses[x:x+10] for x in range(0, len(responses), 10)]:
+            for line in [responses[x:x + 10] for x in range(0, len(responses), 10)]:
                 bot.say(', '.join([i for sub in line for i in sub]), trigger.nick)
         # Reply in channel
         else:
