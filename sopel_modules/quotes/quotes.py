@@ -225,10 +225,18 @@ def match(bot, trigger):
         pattern = trigger.group(2).strip()
         responses = Quotes.match(pattern, bot)
 
-        if responses:
-            bot.say('Keys matching %s (%s): (' % (pattern, len(responses)) + ', '.join([i for sub in responses for i in sub]) + ')')
+    if responses:
+        # PM the message if it's > 10 responses
+        if len(responses) > 10:
+            bot.say('Keys matching %s (%s):' % (pattern, len(responses)), trigger.nick)
+            for line in [responses[x:x+10] for x in range(0, len(responses), 10)]:
+                bot.say(', '.join([i for sub in line for i in sub]), trigger.nick)
+        # Reply in channel
         else:
-            bot.say('No responses found for %s' % pattern)
+            bot.say('Keys matching %s (%s): (' % (pattern, len(responses)) + ', '.join([i for sub in responses for i in sub]) + ')')
+    # No responses found
+    else:
+        bot.say('No responses found for %s' % pattern)
 
 
 @commands('delete')
