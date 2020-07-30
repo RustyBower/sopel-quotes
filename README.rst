@@ -35,18 +35,10 @@ Deleting Quote
 Requirements
 ============
 
-API Key
-~~~~~~~
-.. code-block::
-
-    https://pro.coinmarketcap.com
-
 Python Requirements
 ~~~~~~~~~~~~~~~~~~~
 .. code-block::
 
-    arrow
-    requests
     sopel
 
 System Requirements
