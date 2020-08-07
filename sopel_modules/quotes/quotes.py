@@ -237,12 +237,12 @@ def match(bot, trigger):
         bot.say('No responses found for %s' % pattern)
 
 
-@commands('delete')
+@commands('deletequote')
 @priority('high')
-@example('.delete hello', 'Deleted quote')
+@example('.deletequote hello', 'Deleted quote')
 def delete(bot, trigger):
     """
-    .delete <key> - Delete the key
+    .deletequote <key> - Delete the key
     """
     if not trigger.group(2) or trigger.group(2) == "":
         bot.say('This command requires arguments.')
