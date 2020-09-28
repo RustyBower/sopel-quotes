@@ -157,6 +157,7 @@ def setup(bot):
 
 
 @commands('quote')
+@commands('quoteadd')
 @priority('high')
 @example('quote')
 @example('quote Hello')
@@ -239,7 +240,8 @@ def match(bot, trigger):
         bot.say('No responses found for %s' % pattern)
 
 
-@commands('delete')
+@commands('quotedel')
+@commands('quotedelete')
 @priority('high')
 @example('.delete hello', 'Deleted quote')
 def delete(bot, trigger):
