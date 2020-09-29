@@ -163,9 +163,7 @@ def setup(bot):
 @example('quote Hello')
 @example('quote Hello = World')
 def get_quote(bot, trigger):
-    """
-    .quote - Add and View Definitions
-    """
+    """.quote - Add and View Definitions"""
     nick = trigger.nick
 
     # If the user types .quote with no arguments, get random quote
@@ -216,9 +214,7 @@ def get_quote(bot, trigger):
 @priority('high')
 @example('.match ello', "Keys Matching '*ello*' (2): (Hello, Hello World)")
 def match(bot, trigger):
-    """
-    .match <pattern> - Search for keys that match the pattern
-    """
+    """.match <pattern> - Search for keys that match the pattern"""
     if not trigger.group(2) or trigger.group(2) == "":
         bot.say('This command requires arguments.')
         return
@@ -243,11 +239,10 @@ def match(bot, trigger):
 @commands('quotedel')
 @commands('quotedelete')
 @priority('high')
-@example('.delete hello', 'Deleted quote')
+@example('.quotedel hello', 'Deleted quote')
+@example('.quotedelete hello', 'Deleted quote')
 def delete(bot, trigger):
-    """
-    .delete <key> - Delete the key
-    """
+    """.quotedelete <key> - Delete the key"""
     if not trigger.group(2) or trigger.group(2) == "":
         bot.say('This command requires arguments.')
         return
