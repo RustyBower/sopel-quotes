@@ -196,8 +196,8 @@ def get_quote(bot, trigger):
                 bot.say('Sorry, your key is too long.')
                 return
 
-            # Make sure our key is less than our db field
-            if len(value) > 96:
+            # Make sure our value isn't too long (approx. 250 characters)
+            if len(value) > 250:
                 bot.say('Sorry, your value is too long.')
                 return
 
