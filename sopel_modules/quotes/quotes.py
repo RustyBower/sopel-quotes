@@ -2,7 +2,7 @@
 # vim: set noai ts=4 sw=4:
 
 """
-Sopel Quotes is a module for handling user added IRC quotes
+Sopel Quotes -  A module for handling user added IRC quotes
 """
 from random import seed
 from sopel.config.types import StaticSection, ValidatedAttribute
@@ -163,7 +163,9 @@ def setup(bot):
 @example('quote Hello')
 @example('quote Hello = World')
 def get_quote(bot, trigger):
-    """.quote - Add and View Definitions"""
+    """
+    .quote - Add or View Quotes. Use .quote <id> = <quote> to add a quote and .quote <id> to view. See .help for other commands to match strings and delete quotes
+    """
     nick = trigger.nick
 
     # If the user types .quote with no arguments, get random quote
