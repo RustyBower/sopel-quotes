@@ -16,9 +16,10 @@ Adding Quote
 .. code-block::
 
     .quote a = b
+    .quoteadd a = b
 
-Getting Quote
-~~~~~~~~~~~~~
+Retrieving Quote
+~~~~~~~~~~~~~~~~
 .. code-block::
 
     # Retrieve a random quote
@@ -30,7 +31,7 @@ Deleting Quote
 ~~~~~~~~~~~~~~
 .. code-block::
 
-    .delete a
+    .quotedelete a
 
 Requirements
 ============

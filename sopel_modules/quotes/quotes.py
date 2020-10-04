@@ -2,7 +2,7 @@
 # vim: set noai ts=4 sw=4:
 
 """
-Sopel Quotes is a module for handling user added IRC quotes
+Sopel Quotes -  A module for handling user added IRC quotes
 """
 from random import seed
 from sopel.config.types import StaticSection, ValidatedAttribute
@@ -60,7 +60,9 @@ class Quotes:
     @staticmethod
     def add(key, value, nick, bot):
         session = bot.memory['quotes_session']
-        Quotes.search(key, bot)
+        # Return False if quote already exists
+        if Quotes.search(key, bot):
+            return False
         new_quote = QuotesDB(key=key, value=value, nick=nick, active=True)
         session.add(new_quote)
         session.commit()
@@ -155,6 +157,7 @@ def setup(bot):
 
 
 @commands('quote')
+@commands('quoteadd')
 @priority('high')
 @example('quote')
 @example('quote Hello')
@@ -195,8 +198,8 @@ def get_quote(bot, trigger):
                 bot.say('Sorry, your key is too long.')
                 return
 
-            # Make sure our key is less than our db field
-            if len(value) > 96:
+            # Make sure our value isn't too long (approx. 250 characters)
+            if len(value) > 250:
                 bot.say('Sorry, your value is too long.')
                 return
 
@@ -213,9 +216,7 @@ def get_quote(bot, trigger):
 @priority('high')
 @example('.match ello', "Keys Matching '*ello*' (2): (Hello, Hello World)")
 def match(bot, trigger):
-    """
-    .match <pattern> - Search for keys that match the pattern
-    """
+    """.match <pattern> - Search for keys that match the pattern"""
     if not trigger.group(2) or trigger.group(2) == "":
         bot.say('This command requires arguments.')
         return
@@ -237,13 +238,13 @@ def match(bot, trigger):
         bot.say('No responses found for %s' % pattern)
 
 
-@commands('delete')
+@commands('quotedel')
+@commands('quotedelete')
 @priority('high')
-@example('.delete hello', 'Deleted quote')
+@example('.quotedel hello', 'Deleted quote')
+@example('.quotedelete hello', 'Deleted quote')
 def delete(bot, trigger):
-    """
-    .delete <key> - Delete the key
-    """
+    """.quotedelete <key> - Delete the key"""
     if not trigger.group(2) or trigger.group(2) == "":
         bot.say('This command requires arguments.')
         return
