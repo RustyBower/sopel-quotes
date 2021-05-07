@@ -50,8 +50,8 @@ System Requirements
 
 .. |version| image:: https://img.shields.io/pypi/v/sopel-modules.quotes.svg
    :target: https://pypi.python.org/pypi/sopel-modules.quotes
-.. |build| image:: https://travis-ci.com/RustyBower/sopel-quotes.svg?branch=master
-   :target: https://travis-ci.com/RustyBower/sopel-quotes
+.. |build| image:: https://github.com/RustyBower/sopel-quotes/actions/workflows/python-tests.yml/badge.svg?branch=master
+   :target: https://github.com/RustyBower/sopel-quotes/actions/workflows/python-tests.yml
 .. |issues| image:: https://img.shields.io/github/issues/RustyBower/sopel-quotes.svg
    :target: https://travis-ci.com/RustyBower/sopel-quotes/issues
 .. |alerts| image:: https://img.shields.io/lgtm/alerts/g/RustyBower/sopel-quotes.svg
