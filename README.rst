@@ -4,6 +4,13 @@
 
 |version| |build| |issues| |alerts| |coverage-status| |license|
 
+**Important: This package is no longer updated. Please install sopel-quotes for use with Sopel 8.0 and higher.**
+
+.. code-block::
+
+    pip uninstall sopel-modules.quotes
+    pip install sopel-quotes
+
 Introduction
 ============
 sopel-quotes is a module for handling user added quotes
